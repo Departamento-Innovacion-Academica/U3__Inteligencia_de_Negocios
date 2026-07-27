@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Las 5 V del Big Data</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f9;
+      padding: 20px;
+      perspective: 1000px; 
+    }
+
+    /* Mensaje de ayuda */
+    .hint {
+      margin-bottom: 20px;
+      color: #666;
+      font-size: 0.95rem;
+      background: #e2e8f0;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    /* Contenedor principal */
+    .outer-container {
+      background-color: #d1d1d1;
+      padding: 12px;
+      border-radius: 28px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+
+    .inner-container {
+      background-color: #838383;
+      padding: 24px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .card-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Estilos de las tarjetas */
+    .card {
+      background-color: #333333;
+      width: 150px;
+      height: 160px;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transform-origin: left center;
+    }
+
+    .card:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .card span {
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .card svg {
+      width: 64px;
+      height: 64px;
+    }
+
+    .arrow {
+      width: 0;
+      height: 0;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      border-left: 14px solid #d1d1d1;
+    }
+
+    /* --- CLASES Y ANIMACIONES ACTIVAS --- */
+    .animate .card {
+      opacity: 0;
+      animation: whipIn 0.85s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .animate .arrow {
+      opacity: 0;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    /* Retrasos en cadena */
+    .animate .card-wrapper:nth-child(1) .card { animation-delay: 0.1s; }
+    .animate .card-wrapper:nth-child(2) .card { animation-delay: 0.25s; }
+    .animate .card-wrapper:nth-child(3) .card { animation-delay: 0.4s; }
+    .animate .card-wrapper:nth-child(4) .card { animation-delay: 0.55s; }
+    .animate .card-wrapper:nth-child(5) .card { animation-delay: 0.7s; }
+
+    .animate .card-wrapper:nth-child(1) .arrow { animation-delay: 0.3s; }
+    .animate .card-wrapper:nth-child(2) .arrow { animation-delay: 0.45s; }
+    .animate .card-wrapper:nth-child(3) .arrow { animation-delay: 0.6s; }
+    .animate .card-wrapper:nth-child(4) .arrow { animation-delay: 0.75s; }
+
+    /* Keyframes */
+    @keyframes whipIn {
+      0% {
+        opacity: 0;
+        transform: translateX(-200px) rotateY(-70deg) scale(0.6);
+      }
+      60% {
+        opacity: 1;
+        transform: translateX(25px) rotateY(15deg) scale(1.05);
+      }
+      80% {
+        transform: translateX(-8px) rotateY(-5deg) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0) rotateY(0deg) scale(1);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hint">Presiona <strong>Enter</strong> para reiniciar la animación ↵</div>
+
+  <!-- Añadimos la clase 'animate' inicialmente -->
+  <div class="outer-container animate" id="mainContainer">
+    <div class="inner-container">
+
+      <!-- 1. Volumen -->
+      <div class="card-wrapper">
+        <div class="card">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="44" width="8" height="12" rx="2" fill="#2196F3"/>
+            <rect x="20" y="34" width="8" height="22" rx="2" fill="#2196F3"/>
+            <rect x="32" y="24" width="8" height="32" rx="2" fill="#2196F3"/>
+            <rect x="44" y="14" width="8" height="42" rx="2" fill="#2196F3"/>
+            <path d="M6 32L24 18L36 26L54 8" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M44 8H54V18" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Volumen</span>
+        </div>
+        <div class="arrow"></div>
+      </div>
+
+      <!-- 2. Velocidad -->
+      <div class="card-wrapper">
+        <div class="card">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 44 A 22 22 0 1 1 52 44" stroke="#E91E63" stroke-width="6" stroke-linecap="round" stroke-dasharray="25 10 15 5"/>
+            <path d="M12 44 A 22 22 0 1 1 52 44" stroke="#00BCD4" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 30"/>
+            <path d="M12 44 A 22 22 0 1 1 52 44" stroke="#FFEB3B" stroke-width="6" stroke-linecap="round" stroke-dasharray="5 50"/>
+            <circle cx="32" cy="40" r="6" fill="#333" stroke="#FFF" stroke-width="3"/>
+            <line x1="32" y1="40" x2="44" y2="22" stroke="#00BCD4" stroke-width="4" stroke-linecap="round"/>
+            <rect x="20" y="48" width="24" height="6" rx="3" fill="#E91E63"/>
+          </svg>
+          <span>Velocidad</span>
+        </div>
+        <div class="arrow"></div>
+      </div>
+
+      <!-- 3. Variedad -->
+      <div class="card-wrapper">
+        <div class="card">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 12 A 20 20 0 0 1 50 38" stroke="#8C9EFF" stroke-width="3" stroke-dasharray="4 3" fill="none"/>
+            <path d="M48 42 A 20 20 0 0 1 16 42" stroke="#8C9EFF" stroke-width="3" stroke-dasharray="4 3" fill="none"/>
+            <path d="M14 38 A 20 20 0 0 1 32 12" stroke="#8C9EFF" stroke-width="3" stroke-dasharray="4 3" fill="none"/>
+            <polygon points="32,6 38,16 26,16" fill="#76FF03"/>
+            <rect x="46" y="32" width="12" height="12" rx="2" fill="#FF1744"/>
+            <circle cx="16" cy="38" r="6" fill="#FF9100"/>
+            <circle cx="32" cy="32" r="10" fill="#333" stroke="#FFF" stroke-width="2"/>
+            <path d="M32 26 V 28 M32 36 V 38 M26 32 H 28 M36 32 H 38" stroke="#FFF" stroke-width="2"/>
+          </svg>
+          <span>Variedad</span>
+        </div>
+        <div class="arrow"></div>
+      </div>
+
+      <!-- 4. Veracidad -->
+      <div class="card-wrapper">
+        <div class="card">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="42" cy="22" r="14" fill="#00BCD4"/>
+            <path d="M36 22 L40 26 L48 17" stroke="#FFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M26 12 L29 15 M22 22 L18 20 M42 4 L42 7" stroke="#FFEB3B" stroke-width="2" stroke-linecap="round"/>
+            <path d="M16 36 C 20 34, 28 36, 36 32 C 40 30, 48 32, 50 36 C 46 40, 36 44, 24 44 Z" fill="#FFE0B2"/>
+            <path d="M16 36 L8 46 L14 50 L20 40" fill="#CFD8DC"/>
+          </svg>
+          <span>Veracidad</span>
+        </div>
+        <div class="arrow"></div>
+      </div>
+
+      <!-- 5. Valor -->
+      <div class="card-wrapper">
+        <div class="card">
+          <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="12" y="44" width="12" height="10" rx="3" fill="#FFD54F" stroke="#FFB300" stroke-width="2"/>
+            <rect x="26" y="36" width="12" height="18" rx="3" fill="#FFD54F" stroke="#FFB300" stroke-width="2"/>
+            <rect x="40" y="28" width="12" height="26" rx="3" fill="#FFD54F" stroke="#FFB300" stroke-width="2"/>
+            <text x="18" y="52" font-size="8" fill="#FF6F00" font-weight="bold" text-anchor="middle">$</text>
+            <text x="32" y="48" font-size="8" fill="#FF6F00" font-weight="bold" text-anchor="middle">$</text>
+            <text x="46" y="44" font-size="8" fill="#FF6F00" font-weight="bold" text-anchor="middle">$</text>
+            <path d="M10 32 L26 20 L36 28 L50 10" stroke="#00E676" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M40 10 H50 V20" stroke="#00E676" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Valor</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const container = document.getElementById('mainContainer');
+
+    function replayAnimation() {
+      // Remover clase
+      container.classList.remove('animate');
+      
+      // Forzar Reflow/Redibujado del DOM
+      void container.offsetWidth; 
+      
+      // Volver a añadir la clase para disparar CSS keyframes
+      container.classList.add('animate');
+    }
+
+    // Escuchar la tecla Enter
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        replayAnimation();
+      }
+    });
+  </script>
+
+</body>
+</html>
