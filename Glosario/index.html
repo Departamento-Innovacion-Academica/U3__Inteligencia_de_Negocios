@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glosario de Analítica Avanzada e Inteligencia de Negocios</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- VARIABLES DE COLOR --- */
+        :root {
+            --primary-brand: #483C9A;
+            --bg-light: #ececec;
+            --text-dark: #333333;
+            --white: #ffffff;
+            --disabled-gray: #a0a0a0;
+            --disabled-bg: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: radial-gradient(#d0d0d0 1px, transparent 1px);
+            background-size: 10px 10px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .glossary-widget {
+            width: 100%;
+            max-width: 900px;
+            background: transparent;
+            position: relative; 
+        }
+
+        .instruction-wrapper {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+
+        .instruction-badge {
+            background-color: var(--primary-brand);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: pulse-attention 2s infinite;
+        }
+
+        @keyframes pulse-attention {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(72, 60, 154, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(72, 60, 154, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(72, 60, 154, 0); }
+        }
+
+        .glossary-header {
+            background-color: var(--primary-brand);
+            color: var(--white);
+            padding: 20px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .glossary-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .glossary-body {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start; 
+        }
+
+        .tabs-container {
+            display: flex;
+            flex-direction: column;
+            width: 140px;
+            flex-shrink: 0;
+            background-color: var(--primary-brand);
+            border-radius: 15px;
+            padding: 10px 0;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px; 
+        }
+
+        .tab-btn {
+            background: transparent;
+            color: var(--white);
+            border: none;
+            padding: 15px 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            outline: none;
+            position: relative;
+        }
+
+        .tab-btn:hover:not(.disabled) {
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        .tab-btn.active {
+            background-color: var(--bg-light);
+            color: var(--primary-brand);
+            border-radius: 5px 0 0 5px;
+        }
+
+        .tab-btn.disabled {
+            color: var(--disabled-gray);
+            background-color: rgba(0, 0, 0, 0.15);
+            cursor: not-allowed;
+        }
+
+        .tab-btn.disabled::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            left: 105%;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #333333;
+            color: var(--white);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        .tab-btn.disabled::before {
+            content: '';
+            position: absolute;
+            left: 101%;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent #333333 transparent transparent;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            z-index: 10;
+        }
+
+        .tab-btn.disabled:hover::after,
+        .tab-btn.disabled:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            padding: 40px;
+            min-height: 450px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .definition-item {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 5px solid var(--primary-brand);
+        }
+
+        .definition-item h3 {
+            color: var(--primary-brand);
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .definition-item p {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+            text-align: left;
+        }
+
+        .hidden { display: none; }
+
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in .definition-item {
+            animation: slideUpFade 0.5s ease-out forwards;
+            opacity: 0; 
+        }
+
+        .animate-in .definition-item:nth-child(n) { animation-delay: 0.1s; }
+
+        @media (max-width: 768px) {
+            .glossary-body { flex-direction: column; }
+            .tabs-container { width: 100%; flex-direction: row; position: static; }
+            .tab-btn { flex: 1; border-bottom: none; border-right: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
+            .tab-btn.active { border-radius: 10px 10px 0 0; }
+            .tab-btn.disabled::after { left: 50%; top: auto; bottom: 115%; transform: translateX(-50%); }
+            .tab-btn.disabled::before { left: 50%; top: auto; bottom: 105%; transform: translateX(-50%); border-color: #333333 transparent transparent transparent; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="glossary-widget">
+    <div class="instruction-wrapper">
+        <div class="instruction-badge">
+            <span>👆</span> Haga Clic sobre los botones para ampliar la información
+        </div>
+    </div>
+
+    <div class="glossary-header">
+        <h1>Glosario de la unidad</h1>
+    </div>
+
+    <div class="glossary-body">
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="filterContent('A-I', this)">A – I</button>
+            <button class="tab-btn" onclick="filterContent('J-Q', this)">J – Q</button>
+            <button class="tab-btn" onclick="filterContent('R-Z', this)">R – Z</button>
+        </div>
+
+        <div class="content-area">
+            <div class="content-group animate-in" id="group-A-I">
+                <div class="definition-item">
+                    <h3>Analítica en Tiempo Real</h3>
+                    <p>Capacidad de procesar y analizar datos a medida que se generan, permitiendo obtener información inmediata para responder rápidamente a eventos o cambios en el entorno.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Análisis Predictivo</h3>
+                    <p>Técnica analítica que utiliza datos históricos, modelos estadísticos y algoritmos de aprendizaje automático para estimar comportamientos o eventos futuros.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Análisis Prescriptivo</h3>
+                    <p>Tipo de análisis avanzado que no solo predice posibles escenarios futuros, sino que también recomienda acciones o decisiones óptimas basadas en el análisis de los datos.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Augmented Analytics</h3>
+                    <p>Enfoque de análisis de datos que utiliza inteligencia artificial y aprendizaje automático para automatizar procesos de preparación de datos, descubrimiento de patrones y generación de insights analíticos.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Big Data</h3>
+                    <p>Conjunto de tecnologías y metodologías diseñadas para procesar grandes volúmenes de datos caracterizados por su alta velocidad, variedad y volumen, que superan la capacidad de los sistemas tradicionales de procesamiento de información.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Business Analytics</h3>
+                    <p>Disciplina que utiliza técnicas avanzadas de análisis de datos, modelos estadísticos y algoritmos para interpretar información empresarial y apoyar procesos de toma de decisiones estratégicas.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Data Fabric</h3>
+                    <p>Arquitectura de gestión de datos que integra diferentes fuentes y entornos de información mediante una capa unificada de acceso, facilitando la disponibilidad y el análisis de datos en toda la organización.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Data Governance (Gobierno de Datos)</h3>
+                    <p>Conjunto de políticas, procesos y responsabilidades que garantizan la calidad, disponibilidad, seguridad y correcta gestión de los datos dentro de una organización.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Data Lake</h3>
+                    <p>Repositorio centralizado que permite almacenar grandes volúmenes de datos estructurados, semiestructurados y no estructurados en su formato original para su posterior procesamiento y análisis.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Inteligencia Artificial (IA)</h3>
+                    <p>Área de la informática que desarrolla sistemas capaces de realizar tareas que normalmente requieren inteligencia humana, como aprendizaje, reconocimiento de patrones y toma de decisiones.</p>
+                </div>
+                <div class="definition-item">
+                    <h3>Internet de las Cosas (IoT)</h3>
+                    <p>Red de dispositivos físicos conectados a internet que recopilan e intercambian datos en tiempo real, permitiendo generar información valiosa para el análisis y la toma de decisiones.</p>
+                </div>
+            </div>
+
+            <div class="content-group hidden" id="group-J-Q">
+                <div class="definition-item">
+                    <h3>Machine Learning</h3>
+                    <p>Subcampo de la inteligencia artificial que permite a los sistemas aprender a partir de datos y mejorar su desempeño mediante algoritmos que identifican patrones sin necesidad de programación explícita.</p>
+                </div>
+            </div>
+
+            <div class="content-group hidden" id="group-R-Z">
+                <div class="definition-item">
+                    <h3>Self-Service BI</h3>
+                    <p>Enfoque de inteligencia de negocios que permite a los usuarios de negocio acceder, analizar y visualizar datos directamente mediante herramientas intuitivas, sin depender completamente de especialistas en tecnología o analistas de datos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterContent(groupId, btnElement) {
+        if (btnElement.classList.contains('disabled')) return;
+
+        const groups = document.querySelectorAll('.content-group');
+        groups.forEach(group => {
+            group.classList.add('hidden');
+            group.classList.remove('animate-in');
+        });
+
+        const selectedGroup = document.getElementById('group-' + groupId);
+        if (selectedGroup) {
+            selectedGroup.classList.remove('hidden');
+            void selectedGroup.offsetWidth; 
+            selectedGroup.classList.add('animate-in');
+        }
+
+        const buttons = document.querySelectorAll('.tab-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
