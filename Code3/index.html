@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efecto Typing SQL - Datos JSON</title>
+  <style>
+    /* Estilos generales */
+    body {
+      background-color: #121214;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: 'Fira Code', 'Cascadia Code', Consolas, Monaco, monospace;
+    }
+
+    /* Ventana tipo terminal */
+    .code-window {
+      background-color: #1e1e24;
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      width: 100%;
+      max-width: 620px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Barra superior de la ventana */
+    .window-header {
+      background-color: #18181c;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-circle {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .close { background-color: #ff5f56; }
+    .minimize { background-color: #ffbd2e; }
+    .maximize { background-color: #27c93f; }
+
+    .window-title {
+      color: #7a7a8c;
+      font-size: 13px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Área donde se escribe el código */
+    .code-body {
+      padding: 28px 32px;
+      color: #ffffff;
+      font-size: 16px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      text-align: left;
+    }
+
+    /* Colores del Syntax Highlighting */
+    .keyword { color: #ff5555; font-weight: bold; } /* SELECT, FROM, WHERE */
+    .operator { color: #2e7cd6; }                    /* > */
+    .number { color: #2e7cd6; }                      /* 25 */
+
+    /* Cursor parpadeante */
+    .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 19px;
+      background-color: #ffffff;
+      margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="code-window">
+    <div class="window-header">
+      <span class="btn-circle close"></span>
+      <span class="btn-circle minimize"></span>
+      <span class="btn-circle maximize"></span>
+      <span class="window-title">consulta_json.sql</span>
+    </div>
+    <div class="code-body"><span id="code-content"></span><span class="cursor"></span></div>
+  </div>
+
+  <script>
+    // Tokens configurados para SELECT cliente, edad FROM datos_json WHERE edad > 25;
+    const tokens = [
+      { text: "SELECT", class: "keyword" },
+      { text: " cliente, edad\n\n\n" },
+      { text: "FROM", class: "keyword" },
+      { text: " datos_json\n\n\n" },
+      { text: "WHERE", class: "keyword" },
+      { text: " edad " },
+      { text: ">", class: "operator" },
+      { text: " " },
+      { text: "25", class: "number" },
+      { text: ";" }
+    ];
+
+    const container = document.getElementById("code-content");
+    let tokenIndex = 0;
+    let charIndex = 0;
+    let currentElement = null;
+
+    function typeCode() {
+      if (tokenIndex < tokens.length) {
+        const currentToken = tokens[tokenIndex];
+
+        // Crear elemento para el nuevo token
+        if (charIndex === 0) {
+          if (currentToken.class) {
+            currentElement = document.createElement("span");
+            currentElement.className = currentToken.class;
+            container.appendChild(currentElement);
+          } else {
+            currentElement = document.createTextNode("");
+            container.appendChild(currentElement);
+          }
+        }
+
+        // Agregar carácter actual
+        const char = currentToken.text.charAt(charIndex);
+        if (currentToken.class) {
+          currentElement.textContent += char;
+        } else {
+          currentElement.nodeValue += char;
+        }
+
+        charIndex++;
+
+        // Pasar al siguiente token cuando se complete
+        if (charIndex === currentToken.text.length) {
+          charIndex = 0;
+          tokenIndex++;
+        }
+
+        // Velocidad de escritura (40ms)
+        setTimeout(typeCode, 40);
+      }
+    }
+
+    // Iniciar animación tras un breve retraso
+    setTimeout(typeCode, 500);
+  </script>
+
+</body>
+</html>
