@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Características del Big Data en BI</title>
+  <!-- Fuente Poppins e Iconos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #0c0a1d;
+      --primary-purple: #483C9A;
+      --card-bg: rgba(72, 60, 154, 0.12);
+      --card-border: rgba(72, 60, 154, 0.3);
+      --accent-gradient: linear-gradient(135deg, #6c5ce7 0%, #483C9A 100%);
+      --text-main: #f0f6fc;
+      --text-muted: #a3a1c9;
+      --glow-shadow: 0 0 25px rgba(72, 60, 154, 0.4);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(72, 60, 154, 0.25) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(72, 60, 154, 0.15) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    /* Header Styling */
+    .header {
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 12px;
+      display: inline-block;
+      border-left: 4px solid var(--primary-purple);
+      padding-left: 15px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 900px;
+    }
+
+    /* Floating Instruction Banner */
+    .floating-instruction {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(72, 60, 154, 0.25);
+      border: 1px solid rgba(155, 140, 255, 0.4);
+      padding: 10px 20px;
+      border-radius: 30px;
+      color: #d1cfe8;
+      font-size: 0.9rem;
+      font-weight: 500;
+      backdrop-filter: blur(8px);
+      margin-bottom: 28px;
+      animation: pulseGlow 3s infinite alternate;
+    }
+
+    .floating-instruction i {
+      color: #9b8cff;
+      font-size: 1.1rem;
+      animation: pointerTap 1.5s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+      0% { box-shadow: 0 0 10px rgba(72, 60, 154, 0.2); }
+      100% { box-shadow: 0 0 20px rgba(72, 60, 154, 0.6); }
+    }
+
+    @keyframes pointerTap {
+      0%, 100% { transform: scale(1) translateY(0); }
+      50% { transform: scale(0.85) translateY(2px); }
+    }
+
+    /* Grid Layout */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    /* Interactive Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: 28px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent-gradient);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(72, 60, 154, 0.8);
+      box-shadow: var(--glow-shadow);
+      background: rgba(72, 60, 154, 0.22);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+
+    .card-icon {
+      color: #9b8cff;
+      font-size: 1.2rem;
+      background: rgba(72, 60, 154, 0.3);
+      padding: 10px;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      border: 1px solid rgba(72, 60, 154, 0.4);
+    }
+
+    .card:hover .card-icon {
+      transform: scale(1.1) rotate(5deg);
+      background: var(--primary-purple);
+      color: #ffffff;
+    }
+
+    .card-body {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .card-action {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #9b8cff;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .card-action i {
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover .card-action i {
+      transform: translateX(5px);
+    }
+
+    /* Footer Note */
+    .footer-note {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(72, 60, 154, 0.3);
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Modal Overlay & Content */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(12, 10, 29, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-content {
+      background: #14112e;
+      border: 1px solid rgba(72, 60, 154, 0.6);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 650px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), var(--glow-shadow);
+      transform: scale(0.9);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(72, 60, 154, 0.3);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+
+    .close-btn:hover {
+      background: var(--primary-purple);
+      color: #fff;
+    }
+
+    .modal-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      padding-right: 30px;
+    }
+
+    .modal-body {
+      font-size: 1.05rem;
+      color: #d1cfe8;
+      line-height: 1.8;
+    }
+
+    .modal-body .example-box {
+      margin-top: 15px;
+      padding: 12px 16px;
+      background: rgba(72, 60, 154, 0.2);
+      border-left: 3px solid #9b8cff;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.98rem;
+    }
+
+    .modal-footer {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .modal-btn {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(72, 60, 154, 0.4);
+      transition: all 0.2s ease;
+    }
+
+    .modal-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(72, 60, 154, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h2>1.1.1.1 Características del Big Data en BI</h2>
+      <p>El Big Data se define comúnmente a partir de las llamadas "5V", que describen sus principales características:</p>
+    </header>
+
+    <!-- Floating Instruction -->
+    <div class="floating-instruction">
+      <i class="fa-solid fa-hand-pointer"></i>
+      <span>Haga clic sobre las tarjetas para ampliar la información.</span>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid-container">
+
+      <!-- Item 1: Volumen -->
+      <div class="card" onclick="openModal(0)">
+        <div>
+          <div class="card-header">
+            <h3 class="card-title">Volumen</h3>
+            <i class="fa-solid fa-database card-icon"></i>
+          </div>
+          <p class="card-body">Grandes cantidades de datos.</p>
+        </div>
+        <div class="card-action">
+          <span>Ampliar información</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+
+      <!-- Item 2: Velocidad -->
+      <div class="card" onclick="openModal(1)">
+        <div>
+          <div class="card-header">
+            <h3 class="card-title">Velocidad</h3>
+            <i class="fa-solid fa-bolt card-icon"></i>
+          </div>
+          <p class="card-body">Generación y procesamiento rápido.</p>
+        </div>
+        <div class="card-action">
+          <span>Ampliar información</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+
+      <!-- Item 3: Variedad -->
+      <div class="card" onclick="openModal(2)">
+        <div>
+          <div class="card-header">
+            <h3 class="card-title">Variedad</h3>
+            <i class="fa-solid fa-shapes card-icon"></i>
+          </div>
+          <p class="card-body">Múltiples formatos de datos.</p>
+        </div>
+        <div class="card-action">
+          <span>Ampliar información</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+
+      <!-- Item 4: Veracidad -->
+      <div class="card" onclick="openModal(3)">
+        <div>
+          <div class="card-header">
+            <h3 class="card-title">Veracidad</h3>
+            <i class="fa-solid fa-shield-check card-icon"></i>
+          </div>
+          <p class="card-body">Calidad y confiabilidad.</p>
+        </div>
+        <div class="card-action">
+          <span>Ampliar información</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+
+      <!-- Item 5: Valor -->
+      <div class="card" onclick="openModal(4)">
+        <div>
+          <div class="card-header">
+            <h3 class="card-title">Valor</h3>
+            <i class="fa-solid fa-gem card-icon"></i>
+          </div>
+          <p class="card-body">Utilidad para el negocio.</p>
+        </div>
+        <div class="card-action">
+          <span>Ampliar información</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer Note -->
+    <div class="footer-note">
+      <p>Estas características amplían el alcance del BI, permitiendo analizar información que anteriormente no era considerada (Sivarajah, 2017).</p>
+    </div>
+  </div>
+
+  <!-- Dynamic Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="modal-btn" onclick="closeModal()">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const itemsData = [
+      {
+        title: "Volumen",
+        text: "Se refiere a la inmensa cantidad de datos generados cada segundo por organizaciones, usuarios y dispositivos.",
+        summary: "grandes cantidades de datos"
+      },
+      {
+        title: "Velocidad",
+        text: "Hace referencia a la rapidez con la que se reciben, procesan y analizan los datos en tiempo real o casi real.",
+        summary: "generación y procesamiento rápido"
+      },
+      {
+        title: "Variedad",
+        text: "Abarca los diversos tipos y formatos de datos disponibles: estructurados, semiestructurados y no estructurados (textos, imágenes, videos, logs).",
+        summary: "múltiples formatos de datos"
+      },
+      {
+        title: "Veracidad",
+        text: "Se centra en garantizar la exactitud, calidad, limpieza y confiabilidad de los datos recolectados para evitar sesgos en el análisis.",
+        summary: "calidad y confiabilidad"
+      },
+      {
+        title: "Valor",
+        text: "Es la capacidad de transformar los datos masivos en información útil y accionable que aporte un beneficio tangible a la toma de decisiones estratégicas.",
+        summary: "utilidad para el negocio"
+      }
+    ];
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+
+    function openModal(index) {
+      const item = itemsData[index];
+      modalTitle.innerText = item.title;
+      modalBody.innerHTML = `
+        <p>${item.text}</p>
+        <div class="example-box">
+          <strong>Concepto clave:</strong> ${item.summary}
+        </div>
+      `;
+      modalOverlay.classList.add('active');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+    }
+
+    function closeModalOnOverlay(event) {
+      if (event.target === modalOverlay) {
+        closeModal();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  </script>
+</body>
+</html>
